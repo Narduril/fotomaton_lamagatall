@@ -23,7 +23,8 @@ const CameraPage: React.FC = () => {
 
   useEffect(() => {
     if (picture) setPhoto(picture)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    else if (!picture) startCamera(videoRef)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [picture])
 
   return (

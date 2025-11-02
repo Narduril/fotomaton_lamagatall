@@ -1,14 +1,21 @@
-import { RefObject, useState } from "react";
-import usePhotosStore from "../../../application/store/use-photos-store";
+import { RefObject, useRef, useState } from "react";
 
 
 const useCamera = () => {
-  const { photos } = usePhotosStore()
   const [picture, setPicture] = useState<string>("");
   const [isCameraAvailable, setIsCameraAvailable] = useState<boolean>(true)
+  const streamRef = useRef<MediaStream | null>(null)
 
-  const startCamera = async (videoRef: RefObject<HTMLVideoElement>) => {
+  const startCamera = async (videoRef: RefObject<HTMLVideoElement | null>) => {
+    if (!videoRef?.current) return;
+
     try {
+      if (streamRef.current) {
+        videoRef.current.srcObject = streamRef.current
+        await videoRef.current.play().catch(() => {})
+        return
+      }
+
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           width: { ideal: 1920 },
@@ -16,18 +23,19 @@ const useCamera = () => {
         }
       })
 
-      if (videoRef.current) videoRef.current.srcObject = stream
+      streamRef.current = stream
+      videoRef.current.srcObject = stream
+      await videoRef.current.play().catch(() => {})
     } catch (error) {
       console.error("Error accessing camera: ", error)
       setIsCameraAvailable(false)
     }
   }
 
-  const takePicture = (canvasRef: RefObject<HTMLCanvasElement>, videoRef: RefObject<HTMLVideoElement>) => {
+  const takePicture = async (canvasRef: RefObject<HTMLCanvasElement | null>, videoRef: RefObject<HTMLVideoElement | null>) => {
     if (!canvasRef.current || !videoRef.current) return;
 
     const context = canvasRef.current.getContext("2d");
-
     if (!context) return;
 
     canvasRef.current.width = videoRef.current.videoWidth;
@@ -37,10 +45,15 @@ const useCamera = () => {
     const imageData = canvasRef.current.toDataURL("image/jpeg", 1.0);
     setPicture(imageData);
 
-    const link = document.createElement("a")
-    link.download = `photo_${photos.length}.jpeg`
-    link.href = imageData
-    link.click()
+    if (!window.electronAPI) {
+      console.error('❌ Electron API no disponible');
+      return;
+    }
+
+    const filename = `photo_${Date.now()}.jpeg`;
+    await window.electronAPI.savePhoto(imageData, filename);
+
+    setTimeout(() => setPicture(""), 5000)
   }
 
    return { startCamera, takePicture, setPicture, isCameraAvailable, picture };

@@ -1,12 +1,13 @@
 import { StrictMode } from 'react';
+import { HashRouter } from 'react-router-dom';
+
 import RoutesComponent from '../routes';
-import { BrowserRouter } from 'react-router-dom';
 
 const Application = () => (
   <StrictMode>
-    <BrowserRouter>
+    <HashRouter>
       <RoutesComponent />
-    </BrowserRouter>
+    </HashRouter>
   </StrictMode>
 )
 
