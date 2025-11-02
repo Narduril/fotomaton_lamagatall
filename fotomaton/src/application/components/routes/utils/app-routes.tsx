@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 
 import HomePage from "../../../../pages/home";
+import CameraPage from "../../../../pages/camera";
 
 import { ROUTE_PATHS } from "./route-paths";
 
@@ -27,4 +28,9 @@ export const appRoutes: RouteTypes[] = [
     path: ROUTE_PATHS.HOME,
     element: <HomePage />,
   },
+  {
+    key: "camera",
+    path: ROUTE_PATHS.CAMERA,
+    element: <CameraPage />
+  }
 ]
