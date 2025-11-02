@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import reactLogo from '../../application/assets/img/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
+import './home.css'
 
-function App() {
+const HomePage: React.FC = () => {
   const [count, setCount] = useState(0)
 
   return (
@@ -32,4 +32,4 @@ function App() {
   )
 }
 
-export default App
+export default HomePage
