@@ -1,33 +1,25 @@
-import { useState } from 'react'
-import reactLogo from '../../application/assets/img/react.svg'
-import viteLogo from '/vite.svg'
+import { useNavigate } from "react-router-dom"
+
+import { ROUTE_PATHS } from '../../application/components/routes/utils/route-paths'
+
+import logoPenya from "../../application/assets/img/logo_penya.png"
+
 import './home.css'
 
 const HomePage: React.FC = () => {
-  const [count, setCount] = useState(0)
+  const navigate = useNavigate();
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <img src={logoPenya} className="logo react" alt="React logo" />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+      <h1>FOTO MATÓN PENYA L' AMAGATALL</h1>
+      <div className="button">
+        <button onClick={() => navigate(ROUTE_PATHS.CAMERA)}>
+          CÁMARA
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
