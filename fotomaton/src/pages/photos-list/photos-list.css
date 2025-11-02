@@ -1,0 +1,13 @@
+.photos-list__container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 1rem;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.photos-list__img {
+  width: 400px;
+  border: 1px solid #ccc;
+}

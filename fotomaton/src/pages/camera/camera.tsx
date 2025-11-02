@@ -1,16 +1,18 @@
 import React, { useEffect, useRef } from "react"
 
 import useCamera from "../../commons/hooks/use-camera"
+import usePhotosStore from "../../application/store/use-photos-store"
+
+import BackButton from "../../commons/components/presentational/back-button"
 
 import "./camera.css"
 
 const CameraPage: React.FC = () => {
   const { startCamera, takePicture, setPicture, picture, isCameraAvailable } = useCamera()
+  const { setPhoto } = usePhotosStore()
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  console.log(picture)
 
   useEffect(() => {
     startCamera(videoRef);
@@ -19,8 +21,14 @@ const CameraPage: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (picture) setPhoto(picture)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [picture])
+
   return (
     <section className="attach-photo-container">
+      <BackButton />
       {isCameraAvailable ? (
         <>
         {picture ? (

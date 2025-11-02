@@ -19,6 +19,9 @@ const HomePage: React.FC = () => {
         <button onClick={() => navigate(ROUTE_PATHS.CAMERA)}>
           CÁMARA
         </button>
+        <button onClick={() => navigate(ROUTE_PATHS.PHOTOS_LIST)}>
+          ARCHIVO FOTOS
+        </button>
       </div>
     </>
   )
