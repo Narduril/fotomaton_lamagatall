@@ -2,6 +2,7 @@ import { Navigate } from "react-router-dom";
 
 import HomePage from "../../../../pages/home";
 import CameraPage from "../../../../pages/camera";
+import PhotosListPage from "../../../../pages/photos-list";
 
 import { ROUTE_PATHS } from "./route-paths";
 
@@ -32,5 +33,10 @@ export const appRoutes: RouteTypes[] = [
     key: "camera",
     path: ROUTE_PATHS.CAMERA,
     element: <CameraPage />
+  },
+  {
+    key: "photos-list",
+    path: ROUTE_PATHS.PHOTOS_LIST,
+    element: <PhotosListPage />
   }
 ]

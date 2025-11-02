@@ -1,7 +1,9 @@
 import { RefObject, useState } from "react";
+import usePhotosStore from "../../../application/store/use-photos-store";
 
 
 const useCamera = () => {
+  const { photos } = usePhotosStore()
   const [picture, setPicture] = useState<string>("");
   const [isCameraAvailable, setIsCameraAvailable] = useState<boolean>(true)
 
@@ -9,7 +11,8 @@ const useCamera = () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          facingMode: "environment",
+          width: { ideal: 1920 },
+          height: { ideal: 1080 },
         }
       })
 
@@ -31,8 +34,13 @@ const useCamera = () => {
     canvasRef.current.height = videoRef.current.videoHeight;
 
     context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
-    const imageData = canvasRef.current.toDataURL("image/png");
+    const imageData = canvasRef.current.toDataURL("image/jpeg", 1.0);
     setPicture(imageData);
+
+    const link = document.createElement("a")
+    link.download = `photo_${photos.length}.jpeg`
+    link.href = imageData
+    link.click()
   }
 
    return { startCamera, takePicture, setPicture, isCameraAvailable, picture };

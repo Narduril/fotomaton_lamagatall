@@ -1,0 +1,10 @@
+.back-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.back-button__cross {
+  color: #fff;
+  font-size: 50px;
+  margin: 0
+}

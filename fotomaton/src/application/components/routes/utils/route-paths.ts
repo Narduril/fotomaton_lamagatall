@@ -3,5 +3,6 @@ export const ROUTE_PATHS = {
   ERROR: "/error",
   DEFAULT: "/?",
   HOME: "/home",
-  CAMERA: "/camera"
+  CAMERA: "/camera",
+  PHOTOS_LIST: "/photos-list"
 }
