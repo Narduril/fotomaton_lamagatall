@@ -1,73 +1,110 @@
-# React + TypeScript + Vite
+# Fotomaton
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación React + TypeScript + Vite con Electron para escritorio.
 
-Currently, two official plugins are available:
+## Requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js 20+
+- pnpm 11+
 
-## React Compiler
+## Instalación
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Instala pnpm si no lo tienes:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+corepack enable
+corepack prepare pnpm@11.1.2 --activate
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. En la raíz del proyecto, instala dependencias:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm install
 ```
+
+3. Si aparece un bloqueo de build scripts por Electron/esbuild, acepta los paquetes necesarios:
+
+```bash
+pnpm approve-builds
+```
+
+Selecciona:
+- `electron`
+- `electron-winstaller`
+- `esbuild`
+
+## Desarrollo
+
+Inicia la app en modo desarrollo con Vite + Electron:
+
+```bash
+pnpm run dev
+```
+
+Esto levanta el servidor Vite y la aplicación Electron con la app cargada.
+
+## Build de producción
+
+Compila la app web:
+
+```bash
+pnpm run build
+```
+
+Genera el paquete Electron para instalar como aplicación de escritorio:
+
+```bash
+pnpm run electron:build
+```
+
+O genera todo en un único paso:
+
+```bash
+pnpm run dist
+```
+
+Cuando se ejecuta el build de Electron, el proyecto genera instaladores nativos según el sistema operativo:
+- macOS: `.dmg`
+- Windows: `.exe`
+- Linux: `.AppImage`
+
+También existe el script orientado a empaquetado de escritorio:
+
+```bash
+pnpm run build:desktop
+```
+
+## Scripts disponibles
+
+```bash
+pnpm run dev
+pnpm run build
+pnpm run lint
+pnpm run preview
+pnpm run start
+pnpm run electron:build
+pnpm run dist
+pnpm run build:desktop
+pnpm run typecheck
+```
+
+## Estructura principal
+
+```text
+fotomaton/
+├── electron/
+├── public/
+├── src/
+├── index.html
+├── package.json
+├── pnpm-lock.yaml
+├── tsconfig.json
+├── tsconfig.app.json
+├── tsconfig.node.json
+├── vite.config.ts
+└── eslint.config.js
+```
+
+## Nota importante
+
+Este proyecto usa pnpm como gestor de paquetes. No uses `npm install` ni `npm run ...` para mantener consistencia con el lockfile del proyecto.

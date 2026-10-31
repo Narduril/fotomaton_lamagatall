@@ -1,12 +1,12 @@
 import { Navigate } from "react-router-dom";
 
-import HomePage from "../../../../pages/home";
-import CameraPage from "../../../../pages/camera";
-import PhotosListPage from "../../../../pages/photos-list";
+import HomePage from '@pages/home';
+import CameraPage from '@pages/camera';
+import PhotosListPage from '@pages/photos-list';
 
-import { ROUTE_PATHS } from "./route-paths";
+import { ROUTE_PATHS } from './route-paths';
 
-import type { RouteTypes } from "./types";
+import type { RouteTypes } from './types';
 
 export const appRoutes: RouteTypes[] = [
   {

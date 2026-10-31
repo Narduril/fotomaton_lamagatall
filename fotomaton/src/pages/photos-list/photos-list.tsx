@@ -1,13 +1,13 @@
-import React from "react"
+import React from 'react'
 
-import usePhotosStore from "../../application/store/use-photos-store"
+import usePhotosStore from '@app/store/use-photos-store';
 
-import BackButton from "../../commons/components/presentational/back-button"
+import BackButton from '@commons/components/presentational/back-button';
 
-import "./photos-list.css"
+import '@pages/photos-list/photos-list.css';
 
 const PhotosListPage: React.FC = () => {
-  const { photos } = usePhotosStore()
+  const { photos } = usePhotosStore();
 
   return (
     <section className="photos-list">

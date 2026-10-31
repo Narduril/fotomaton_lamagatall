@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from 'react'
 
-import useCamera from "../../commons/hooks/use-camera"
-import usePhotosStore from "../../application/store/use-photos-store"
+import useCamera from '@commons/hooks/use-camera';
+import usePhotosStore from '@app/store/use-photos-store';
 
-import BackButton from "../../commons/components/presentational/back-button"
+import BackButton from '@commons/components/presentational/back-button';
 
-import "./camera.css"
+import '@pages/camera/camera.css';
 
 const CameraPage: React.FC = () => {
   const { startCamera, takePicture, setPicture, picture, isCameraAvailable } = useCamera()
@@ -16,7 +16,7 @@ const CameraPage: React.FC = () => {
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const intervalRef = useRef(0);
+  const intervalRef = useRef<number>(0);
 
   useEffect(() => {
     startCamera(videoRef);
@@ -49,7 +49,7 @@ const CameraPage: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [photoTimer])
 
-  const handleTakePicture = () => setIsTakingPicture(true)
+  const handleTakePicture: () => void = () => setIsTakingPicture(true)
 
   return (
     <section className="attach-photo-container">

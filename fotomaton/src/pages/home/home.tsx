@@ -1,13 +1,13 @@
-import useCustomNavigate from '../../commons/hooks/use-custom-navigate/use-custom-navigate'
+import useCustomNavigate from '@commons/hooks/use-custom-navigate/use-custom-navigate';
 
-import { ROUTE_PATHS } from '../../application/components/routes/utils/route-paths'
+import { ROUTE_PATHS } from '@app/components/routes/utils/route-paths';
 
-import logoPenya from "../../application/assets/img/logo_penya.png"
+import logoPenya from '@app/assets/img/logo_penya.png';
 
-import './home.css'
+import '@pages/home/home.css';
 
 const HomePage: React.FC = () => {
-  const { customNavigate } = useCustomNavigate()
+  const { customNavigate } = useCustomNavigate();
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { HashRouter } from 'react-router-dom';
 
-import RoutesComponent from '../routes';
+import RoutesComponent from '@app/components/routes';
 
 const Application = () => (
   <StrictMode>
