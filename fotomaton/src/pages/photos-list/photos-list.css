@@ -1,15 +1,23 @@
+.photos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
 .photos-list__container {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
   gap: 1rem;
   box-sizing: border-box;
   overflow-x: hidden;
 }
 
 .photos-list__img {
-  width: 400px;
-  max-width: 100%;
-  border: 1px solid #ccc;
+  width: min(22rem, 100%);
+  aspect-ratio: 4 / 3;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.75rem;
   object-fit: cover;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
 }
