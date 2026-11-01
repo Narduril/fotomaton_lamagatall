@@ -1,8 +1,8 @@
 import { create } from "zustand";
 
-import { defaultPhotosState } from "./utils/default-photos-state";
+import { defaultPhotosState } from '@app/store/use-photos-store/utils/default-photos-state';
 
-import { PhotosActions, PhotosState } from "./utils/interfaces";
+import type { PhotosActions, PhotosState } from '@app/store/use-photos-store/utils/interfaces';
 
 const usePhotosStore = create<PhotosState & PhotosActions>((set) => ({
   ...defaultPhotosState,

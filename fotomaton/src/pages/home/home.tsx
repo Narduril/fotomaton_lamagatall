@@ -1,26 +1,30 @@
-import useCustomNavigate from '../../commons/hooks/use-custom-navigate/use-custom-navigate'
+import useCustomNavigate from '@commons/hooks/use-custom-navigate/use-custom-navigate'
 
-import { ROUTE_PATHS } from '../../application/components/routes/utils/route-paths'
+import usePhotosStore from '@app/store/use-photos-store'
 
-import logoPenya from "../../application/assets/img/logo_penya.png"
+import { ROUTE_PATHS } from '@app/components/routes/utils/route-paths'
+
+import logoPenya from '@app/assets/img/logo_penya.png'
 
 import './home.css'
 
 const HomePage: React.FC = () => {
   const { customNavigate } = useCustomNavigate()
+  const { photos } = usePhotosStore()
 
   return (
     <>
       <div>
         <img src={logoPenya} className="logo react" alt="React logo" />
       </div>
-      <h1>FOTO MATÓN PENYA L' AMAGATALL</h1>
+      <h1>FOTOMATÓN PENYA L' AMAGATALL</h1>
       <div className="button">
-        <button onClick={() => customNavigate(ROUTE_PATHS.CAMERA)}>
+        <button className="home__button" onClick={() => customNavigate(ROUTE_PATHS.CAMERA)}>
           CÁMARA
         </button>
-        <button onClick={() => customNavigate(ROUTE_PATHS.PHOTOS_LIST)}>
-          ARCHIVO FOTOS
+
+        <button disabled={!photos.length} className="home__button" onClick={() => customNavigate(ROUTE_PATHS.PHOTOS_LIST)}>
+          GALERÍA
         </button>
       </div>
     </>

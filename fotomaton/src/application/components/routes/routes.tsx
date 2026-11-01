@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import { appRoutes } from "./utils/app-routes";
-import type { RouteTypes } from "./utils/types";
+import { appRoutes } from '@app/components/routes/utils/app-routes';
+import type { RouteTypes } from '@app/components/routes/utils/types';
 
 const RoutesComponent: React.FC = () => {
   return (

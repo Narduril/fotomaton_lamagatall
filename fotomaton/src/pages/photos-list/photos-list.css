@@ -1,13 +1,22 @@
+.photos-list{
+  width: 1480px;
+  min-height: 800px;
+  margin: 50px 0;
+}
+
 .photos-list__container {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  gap: 1rem;
+  gap: 1.5rem;
   box-sizing: border-box;
   overflow-x: hidden;
+  justify-content: flex-start;
 }
 
 .photos-list__img {
-  width: 400px;
-  border: 1px solid #ccc;
+  width: 347px;
+  border: 2px solid #0dad4c;
+  border-radius: 10px;
+  cursor: pointer;
 }
