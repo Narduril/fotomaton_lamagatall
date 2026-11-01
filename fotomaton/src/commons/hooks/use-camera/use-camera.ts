@@ -53,7 +53,7 @@ const useCamera = () => {
     const filename = `photo_${Date.now()}.jpeg`;
     await window.electronAPI.savePhoto(imageData, filename);
 
-    setTimeout(() => setPicture(""), 5000)
+    setTimeout(() => setPicture(""), 2_000)
   }
 
    return { startCamera, takePicture, setPicture, isCameraAvailable, picture };

@@ -1,23 +1,22 @@
-.photos-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 1.5rem;
+.photos-list{
+  width: 1480px;
+  min-height: 800px;
+  margin: 50px 0;
 }
 
 .photos-list__container {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: row;
+  gap: 1.5rem;
   box-sizing: border-box;
   overflow-x: hidden;
+  justify-content: flex-start;
 }
 
 .photos-list__img {
-  width: min(22rem, 100%);
-  aspect-ratio: 4 / 3;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 0.75rem;
-  object-fit: cover;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  width: 347px;
+  border: 2px solid #0dad4c;
+  border-radius: 10px;
+  cursor: pointer;
 }

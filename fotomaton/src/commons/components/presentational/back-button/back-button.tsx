@@ -1,16 +1,19 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react"
 
-import '@commons/components/presentational/back-button/back-button.css';
+import useCustomNavigate from '@commons/hooks/use-custom-navigate'
+
+import { ROUTE_PATHS } from '@app/components/routes/utils/route-paths'
+
+import "./back-button.css"
 
 const BackButton: React.FC = () => {
-  const navigate = useNavigate();
+  const { customNavigate } = useCustomNavigate()
 
   return (
-    <div className="back-button" onClick={() => navigate(-1)}>
+    <div className="back-button" onClick={() => customNavigate(ROUTE_PATHS.HOME)}>
       <p className="back-button__cross">X</p>
     </div>
-  );
-};
+  )
+}
 
-export default BackButton;
+export default BackButton

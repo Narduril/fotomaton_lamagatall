@@ -4,5 +4,6 @@ export const ROUTE_PATHS = {
   DEFAULT: "/?",
   HOME: "/home",
   CAMERA: "/camera",
-  PHOTOS_LIST: "/photos-list"
+  PHOTOS_LIST: "/photos-list",
+  LAST_PHOTOS: "/last-photos"
 }

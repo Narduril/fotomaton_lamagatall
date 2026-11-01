@@ -3,10 +3,11 @@ import { Navigate } from "react-router-dom";
 import HomePage from '@pages/home';
 import CameraPage from '@pages/camera';
 import PhotosListPage from '@pages/photos-list';
+import LastPhotosPage from '@pages/last-photos';
 
-import { ROUTE_PATHS } from './route-paths';
+import { ROUTE_PATHS } from '@app/components/routes/utils/route-paths';
 
-import type { RouteTypes } from './types';
+import type { RouteTypes } from '@app/components/routes/utils/types';
 
 export const appRoutes: RouteTypes[] = [
   {
@@ -38,5 +39,10 @@ export const appRoutes: RouteTypes[] = [
     key: "photos-list",
     path: ROUTE_PATHS.PHOTOS_LIST,
     element: <PhotosListPage />
+  },
+  {
+    key: "last-photos",
+    path: ROUTE_PATHS.LAST_PHOTOS,
+    element: <LastPhotosPage />
   }
 ]
