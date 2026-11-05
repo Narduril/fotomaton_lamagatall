@@ -64,6 +64,31 @@ if (!fs.existsSync(photosDir)) {
   fs.mkdirSync(photosDir, { recursive: true });
 }
 
+const getStoredPhotos = () => {
+  if (!fs.existsSync(photosRoot)) {
+    return [];
+  }
+
+  const dateDirectories = fs.readdirSync(photosRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort((a, b) => b.localeCompare(a));
+
+  const files = dateDirectories.flatMap((dateFolder) => {
+    const folderPath = join(photosRoot, dateFolder);
+
+    if (!fs.existsSync(folderPath)) {
+      return [];
+    }
+
+    return fs.readdirSync(folderPath)
+      .filter((fileName) => /\.(jpe?g|png|webp|gif|bmp)$/i.test(fileName))
+      .map((fileName) => join(folderPath, fileName));
+  });
+
+  return files.sort((a, b) => b.localeCompare(a));
+};
+
 ipcMain.handle('save-photo', async (event, base64Data, filename) => {
   try {
     const targetDir = join(getPhotosRoot(), folderName);
@@ -79,6 +104,15 @@ ipcMain.handle('save-photo', async (event, base64Data, filename) => {
   } catch (error) {
     console.error('❌ Error guardando foto:', error);
     return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('get-photos', async () => {
+  try {
+    return getStoredPhotos();
+  } catch (error) {
+    console.error('❌ Error recuperando fotos:', error);
+    return [];
   }
 });
 

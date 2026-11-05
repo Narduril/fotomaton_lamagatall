@@ -7,4 +7,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   savePhoto: (base64Data, filename) =>
     ipcRenderer.invoke('save-photo', base64Data, filename),
+  getPhotos: () => ipcRenderer.invoke('get-photos'),
 });
