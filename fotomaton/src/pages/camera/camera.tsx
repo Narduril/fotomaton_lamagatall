@@ -11,7 +11,7 @@ import { ROUTE_PATHS } from '@app/components/routes/utils/route-paths'
 
 import cowabungaImg from '@app/assets/img/cowabunga.png'
 
-import "./camera.css"
+import '@pages/camera/camera.css'
 
 const CameraPage: React.FC = () => {
   const { startCamera, takePicture, isCameraAvailable } = useCamera()

@@ -6,7 +6,7 @@ import { ROUTE_PATHS } from '@app/components/routes/utils/route-paths'
 
 import logoPenya from '@app/assets/img/logo_penya.png'
 
-import './home.css'
+import '@pages/home/home.css'
 
 const HomePage: React.FC = () => {
   const { customNavigate } = useCustomNavigate()
