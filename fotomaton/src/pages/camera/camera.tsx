@@ -151,4 +151,4 @@ const CameraPage: React.FC = () => {
   )
 }
 
-export default CameraPage
+export default CameraPage

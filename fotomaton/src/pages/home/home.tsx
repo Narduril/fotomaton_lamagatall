@@ -22,7 +22,7 @@ const HomePage: React.FC = () => {
 
         <div className="home__content">
           <p className="home__kicker">Un recuerdo para llevarte</p>
-          <h1 className="home__title" id="home-title">Nuestro fotomatón</h1>
+          <h1 className="home__title" id="home-title">Nuestro Fotomatón</h1>
           <p className="home__description">
             Prepara tu mejor sonrisa y crea un recuerdo de la fiesta.
           </p>
@@ -32,7 +32,6 @@ const HomePage: React.FC = () => {
               className="home__button home__button--primary"
               onClick={() => customNavigate(ROUTE_PATHS.CAMERA)}
             >
-              <span className="home__button-icon" aria-hidden="true">●</span>
               Hacerme una foto
             </button>
             <button

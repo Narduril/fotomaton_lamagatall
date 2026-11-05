@@ -28,8 +28,8 @@ const PhotosListPage: React.FC = () => {
     <main className="photos-list">
       <BackButton />
       <header className="photos-list__header">
-        <p className="photos-list__eyebrow">Tus recuerdos</p>
-        <h1 className="photos-list__title">La galería</h1>
+        <p className="photos-list__eyebrow">Galería de fotos</p>
+        <h1 className="photos-list__title">Momentos</h1>
         <p className="photos-list__description">
           {photos.length === 1 ? '1 foto guardada en esta sesión' : `${photos.length} fotos guardadas en esta sesión`}
         </p>
@@ -61,4 +61,4 @@ const PhotosListPage: React.FC = () => {
   )
 }
 
-export default PhotosListPage
+export default PhotosListPage
