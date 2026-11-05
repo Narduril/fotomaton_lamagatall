@@ -20,10 +20,20 @@ export const sanitizePath = (value) => {
 };
 
 export const getCandidatePhotoRoots = (preferredRoot) => {
+  const homeDir = os.homedir();
+  const userProfile = process.env.USERPROFILE || homeDir;
+  const windowsPictureRoots = [
+    path.join(userProfile, 'Pictures'),
+    path.join(userProfile, 'OneDrive', 'Pictures'),
+    path.join(userProfile, 'OneDrive - Personal', 'Pictures'),
+    path.join(userProfile, 'Documents', 'Pictures'),
+    path.join(homeDir, 'Pictures'),
+    path.join(homeDir, 'Documents', 'Pictures'),
+  ];
+
   const candidates = [
     preferredRoot,
-    path.join(os.homedir(), 'Pictures'),
-    path.join(os.homedir(), 'Documents', 'Pictures'),
+    ...windowsPictureRoots,
     path.join(os.tmpdir(), 'Fotomaton'),
   ].filter(Boolean);
 
@@ -47,8 +57,22 @@ export const ensureDirectoryWritable = (directoryPath) => {
   try {
     fs.mkdirSync(normalizedDir, { recursive: true });
     fs.accessSync(normalizedDir, fs.constants.W_OK);
+
+    const probePath = path.join(normalizedDir, '.fotomaton-write-test');
+    fs.writeFileSync(probePath, 'ok', { flag: 'wx' });
+    fs.unlinkSync(probePath);
+
     return normalizedDir;
   } catch (error) {
+    try {
+      const probePath = path.join(normalizedDir, '.fotomaton-write-test');
+      if (fs.existsSync(probePath)) {
+        fs.unlinkSync(probePath);
+      }
+    } catch {
+      // no-op: the directory is already invalid; report the original error
+    }
+
     throw error;
   }
 };
