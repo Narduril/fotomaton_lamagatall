@@ -5,6 +5,8 @@ import path from 'path';
 import fs from 'fs';
 import os from 'os';
 
+import { getSaveErrorMessage, getTodayFolderName, resolvePhotoDirectory } from './photo-storage.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -12,11 +14,10 @@ const getPhotosRoot = () => {
   const picturesPath = app.getPath('pictures');
 
   if (picturesPath && picturesPath.trim().length > 0) {
-    return join(picturesPath, 'Fotomaton');
+    return picturesPath;
   }
 
-  const fallbackRoot = join(os.homedir(), 'Pictures', 'Fotomaton');
-  return fallbackRoot;
+  return path.join(os.homedir(), 'Pictures');
 };
 
 function createWindow() {
@@ -51,14 +52,10 @@ function createWindow() {
   });
 }
 
-const now = new Date();
-const yyyy = now.getFullYear();
-const mm = String(now.getMonth() + 1).padStart(2, '0');
-const dd = String(now.getDate()).padStart(2, '0');
-const folderName = `${yyyy}-${mm}-${dd}`;
+const folderName = getTodayFolderName();
 
 const photosRoot = getPhotosRoot();
-const photosDir = join(photosRoot, folderName);
+const photosDir = resolvePhotoDirectory(photosRoot, folderName);
 
 if (!fs.existsSync(photosDir)) {
   fs.mkdirSync(photosDir, { recursive: true });
@@ -66,19 +63,18 @@ if (!fs.existsSync(photosDir)) {
 
 ipcMain.handle('save-photo', async (event, base64Data, filename) => {
   try {
-    const targetDir = join(getPhotosRoot(), folderName);
-    if (!fs.existsSync(targetDir)) {
-      fs.mkdirSync(targetDir, { recursive: true });
-    }
-
-    const filePath = join(targetDir, filename);
+    const targetDir = resolvePhotoDirectory(getPhotosRoot(), folderName);
+    const safeFilename = typeof filename === 'string' && filename.trim().length > 0 ? filename : `photo_${Date.now()}.jpeg`;
+    const filePath = join(targetDir, safeFilename);
     const data = base64Data.replace(/^data:image\/\w+;base64,/, '');
+
     fs.writeFileSync(filePath, data, 'base64');
 
     return { success: true, path: filePath };
   } catch (error) {
-    console.error('❌ Error guardando foto:', error);
-    return { success: false, error: error.message };
+    const friendlyError = getSaveErrorMessage(error, 'No se pudo guardar la foto. Comprueba que la carpeta de destino esté disponible y tengas permisos de escritura.');
+    console.error('❌ Error guardando foto:', friendlyError);
+    return { success: false, error: friendlyError };
   }
 });
 
