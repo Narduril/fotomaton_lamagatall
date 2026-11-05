@@ -10,10 +10,15 @@ const BackButton: React.FC = () => {
   const { customNavigate } = useCustomNavigate()
 
   return (
-    <div className="back-button" onClick={() => customNavigate(ROUTE_PATHS.HOME)}>
-      <p className="back-button__cross">X</p>
-    </div>
+    <button
+      className="back-button"
+      type="button"
+      aria-label="Volver al inicio"
+      onClick={() => customNavigate(ROUTE_PATHS.HOME)}
+    >
+      <span aria-hidden="true">←</span>
+    </button>
   )
 }
 
-export default BackButton
+export default BackButton

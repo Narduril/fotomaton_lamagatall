@@ -13,21 +13,41 @@ const HomePage: React.FC = () => {
   const { photos } = usePhotosStore()
 
   return (
-    <>
-      <div>
-        <img src={logoPenya} className="logo react" alt="React logo" />
-      </div>
-      <h1>FOTOMATÓN PENYA L' AMAGATALL</h1>
-      <div className="button">
-        <button className="home__button" onClick={() => customNavigate(ROUTE_PATHS.CAMERA)}>
-          CÁMARA
-        </button>
+    <main className="home">
+      <section className="home__card" aria-labelledby="home-title">
+        <div className="home__brand">
+          <img src={logoPenya} className="home__logo" alt="Penya L'Amagatall, Benidorm 2010" />
+          <span className="home__eyebrow">Benidorm · desde 2010</span>
+        </div>
 
-        <button disabled={!photos.length} className="home__button" onClick={() => customNavigate(ROUTE_PATHS.PHOTOS_LIST)}>
-          GALERÍA
-        </button>
-      </div>
-    </>
+        <div className="home__content">
+          <p className="home__kicker">Un recuerdo para llevarte</p>
+          <h1 className="home__title" id="home-title">Nuestro fotomatón</h1>
+          <p className="home__description">
+            Prepara tu mejor sonrisa y crea un recuerdo de la fiesta.
+          </p>
+
+          <div className="home__actions">
+            <button
+              className="home__button home__button--primary"
+              onClick={() => customNavigate(ROUTE_PATHS.CAMERA)}
+            >
+              <span className="home__button-icon" aria-hidden="true">●</span>
+              Hacerme una foto
+            </button>
+            <button
+              disabled={!photos.length}
+              className="home__button home__button--secondary"
+              onClick={() => customNavigate(ROUTE_PATHS.PHOTOS_LIST)}
+            >
+              Ver la galería
+              {photos.length > 0 && <span className="home__photo-count">{photos.length}</span>}
+            </button>
+          </div>
+          <p className="home__note">La cámara hará dos capturas automáticamente</p>
+        </div>
+      </section>
+    </main>
   )
 }
 

@@ -21,14 +21,22 @@ const LastPhotosPage: React.FC = () => {
   }, [customNavigate]);
 
   return (
-    <section className="last-photos">
+    <main className="last-photos">
+      <header className="last-photos__header">
+        <p className="last-photos__eyebrow">Recuerdo guardado</p>
+        <h1 className="last-photos__title">¡Qué buena compañía!</h1>
+        <p className="last-photos__description">Tus fotos ya están listas.</p>
+      </header>
       <div className="last-photos__container">
-        {lastPhotos.map((photo: string) => (
-          <img className="last-photo__img" src={photo} />
+        {lastPhotos.map((photo: string, index: number) => (
+          <div className="last-photos__frame" key={`${index}-${photo.slice(0, 24)}`}>
+            <img className="last-photo__img" src={photo} alt={`Foto de la sessió ${index + 1}`} />
+          </div>
         ))}
       </div>
-    </section>
+      <p className="last-photos__hint">Volvemos a empezar en un momento…</p>
+    </main>
   )
 }
 
-export default LastPhotosPage
+export default LastPhotosPage

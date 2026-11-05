@@ -1,24 +1,203 @@
-#root {
-  max-width: 1480px;
-  margin: 0 auto;
+.home {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3.5rem);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 12% 18%, rgb(139 197 63 / 15%), transparent 32rem),
+    radial-gradient(ellipse at 92% 84%, rgb(16 27 64 / 8%), transparent 30rem),
+    var(--color-cream);
+}
+
+.home__card {
+  width: min(100%, 70rem);
+  min-height: min(44rem, calc(100vh - 3rem));
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.9fr) minmax(20rem, 1.1fr);
+  align-items: center;
+  gap: clamp(2rem, 6vw, 6rem);
+  padding: clamp(2rem, 7vw, 6.5rem);
+  overflow: hidden;
+  border: 1px solid rgb(23 37 31 / 7%);
+  border-radius: 2rem;
+  background: var(--color-paper);
+  box-shadow: var(--shadow-card);
+}
+
+.home__brand {
+  display: grid;
+  justify-items: center;
+  gap: 1.25rem;
+}
+
+.home__logo {
+  width: min(100%, 23rem);
+  height: auto;
+  object-fit: contain;
+}
+
+.home__eyebrow,
+.home__kicker {
+  color: var(--color-green-dark);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.home__eyebrow {
   text-align: center;
 }
 
-.logo {
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.home__content {
+  max-width: 34rem;
 }
 
-.button {
-  padding: 2em;
-  display: flex;
-  justify-content: center;
-  gap: 20px
+.home__kicker {
+  margin: 0 0 1rem;
+}
+
+.home__title {
+  margin: 0;
+  color: var(--color-ink);
+  font-size: clamp(2.7rem, 5vw, 4.8rem);
+  font-weight: 850;
+  letter-spacing: -0.07em;
+  line-height: 0.98;
+}
+
+.home__description {
+  max-width: 28rem;
+  margin: 1.5rem 0 0;
+  color: var(--color-muted);
+  font-size: clamp(1rem, 1.6vw, 1.18rem);
+  line-height: 1.65;
+}
+
+.home__actions {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 2.2rem;
 }
 
 .home__button {
-  background-color: #0dad4c;
-  height: 70px;
-  font-size: x-large;
+  min-height: 3.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 0.85rem;
+  font-size: 1rem;
+  font-weight: 750;
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.home__button:not(:disabled):hover {
+  transform: translateY(-2px);
+}
+
+.home__button--primary {
+  color: #14210e;
+  background: var(--color-green);
+  box-shadow: 0 0.5rem 1.2rem rgb(139 197 63 / 23%);
+}
+
+.home__button--primary:hover {
+  background: #a0d354;
+  box-shadow: 0 0.7rem 1.5rem rgb(139 197 63 / 32%);
+}
+
+.home__button--secondary {
+  border-color: #e2e6df;
+  background: transparent;
+}
+
+.home__button--secondary:not(:disabled):hover {
+  background: #f4f7f0;
+}
+
+.home__button:disabled {
+  color: #a1a9a2;
+  background: #f2f3ef;
+  cursor: not-allowed;
+}
+
+.home__button-icon {
+  color: #fffefa;
+  font-size: 1.2rem;
+  text-shadow: 0 0 0.12rem currentColor;
+}
+
+.home__photo-count {
+  min-width: 1.6rem;
+  height: 1.6rem;
+  display: grid;
+  place-items: center;
+  padding: 0 0.4rem;
+  border-radius: 99px;
+  color: var(--color-paper);
+  background: var(--color-navy);
+  font-size: 0.78rem;
+}
+
+.home__note {
+  margin: 1.2rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .home {
+    padding: 0.8rem;
+  }
+
+  .home__card {
+    min-height: calc(100vh - 1.6rem);
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: clamp(1.5rem, 5vh, 3rem);
+    padding: clamp(1.5rem, 7vw, 2.5rem);
+    border-radius: 1.4rem;
+  }
+
+  .home__logo {
+    width: min(58vw, 15rem);
+  }
+
+  .home__eyebrow {
+    font-size: 0.68rem;
+  }
+
+  .home__content {
+    justify-self: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  .home__description {
+    margin-inline: auto;
+  }
+
+  .home__title {
+    font-size: clamp(2.4rem, 11vw, 3.6rem);
+  }
+
+  .home__actions {
+    margin-top: 1.7rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .home__card {
+    padding: 1.25rem;
+  }
+
+  .home__title {
+    font-size: 2.35rem;
+  }
 }

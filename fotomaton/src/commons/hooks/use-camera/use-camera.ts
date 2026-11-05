@@ -1,14 +1,11 @@
-import { RefObject, useRef, useState } from "react";
-
+import { useCallback, useRef, useState, type RefObject } from "react";
 
 const useCamera = () => {
-  const [picture, setPicture] = useState<string>("");
   const [isCameraAvailable, setIsCameraAvailable] = useState<boolean>(true)
   const streamRef = useRef<MediaStream | null>(null)
 
-  const startCamera = async (videoRef: RefObject<HTMLVideoElement | null>) => {
-    if (!videoRef?.current) return;
-
+  const startCamera = useCallback(async (videoRef: RefObject<HTMLVideoElement | null>) => {
+    if (!videoRef.current) return;
     try {
       if (streamRef.current) {
         videoRef.current.srcObject = streamRef.current
@@ -30,33 +27,54 @@ const useCamera = () => {
       console.error("Error accessing camera: ", error)
       setIsCameraAvailable(false)
     }
-  }
+  }, [])
 
-  const takePicture = async (canvasRef: RefObject<HTMLCanvasElement | null>, videoRef: RefObject<HTMLVideoElement | null>) => {
-    if (!canvasRef.current || !videoRef.current) return;
+  const takePicture = useCallback(async (
+    canvasRef: RefObject<HTMLCanvasElement | null>,
+    videoRef: RefObject<HTMLVideoElement | null>,
+  ): Promise<string> => {
+    if (!canvasRef.current || !videoRef.current) {
+      throw new Error("La cámara todavía no está lista.")
+    }
+
+    if (videoRef.current.videoWidth === 0 || videoRef.current.videoHeight === 0) {
+      throw new Error("La cámara todavía no está enviando imagen.")
+    }
 
     const context = canvasRef.current.getContext("2d");
-    if (!context) return;
+    if (!context) {
+      throw new Error("No se pudo preparar la imagen.")
+    }
 
     canvasRef.current.width = videoRef.current.videoWidth;
     canvasRef.current.height = videoRef.current.videoHeight;
 
     context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
     const imageData = canvasRef.current.toDataURL("image/jpeg", 1.0);
-    setPicture(imageData);
+    const filename = `photo_${Date.now()}.jpeg`;
 
-    if (!window.electronAPI) {
-      console.error('❌ Electron API no disponible');
-      return;
+    if (window.electronAPI) {
+      const result = await window.electronAPI.savePhoto(imageData, filename);
+      if (!result.success) {
+        throw new Error(result.error ?? "No se pudo guardar la foto.")
+      }
+    } else {
+      if (navigator.userAgent.includes('Electron')) {
+        throw new Error("La aplicación Electron no ha cargado su API de guardado.")
+      }
+
+      const downloadLink = document.createElement('a')
+      downloadLink.href = imageData
+      downloadLink.download = filename
+      document.body.appendChild(downloadLink)
+      downloadLink.click()
+      downloadLink.remove()
     }
 
-    const filename = `photo_${Date.now()}.jpeg`;
-    await window.electronAPI.savePhoto(imageData, filename);
+    return imageData
+  }, [])
 
-    setTimeout(() => setPicture(""), 2_000)
-  }
-
-   return { startCamera, takePicture, setPicture, isCameraAvailable, picture };
+  return { startCamera, takePicture, isCameraAvailable };
 }
 
 export default useCamera;

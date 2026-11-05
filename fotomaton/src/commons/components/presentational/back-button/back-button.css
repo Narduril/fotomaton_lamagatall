@@ -1,17 +1,24 @@
 .back-button {
-  display: flex;
-  justify-content: flex-end;
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  position: absolute;
+  z-index: 2;
+  top: clamp(1rem, 3vw, 2rem);
+  left: clamp(1rem, 3vw, 2rem);
+  padding: 0;
+  border: 1px solid rgb(23 37 31 / 12%);
+  border-radius: 50%;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  box-shadow: 0 0.4rem 1.2rem rgb(0 0 0 / 8%);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease;
 }
 
-.back-button__cross {
-  color: #fff;
-  font-size: 40px;
-  margin: 0;
-  cursor: pointer;
-  border-radius: 50%;
-  background: #0dad4c;
-  width: 60px;
-  height: 60px;
-  position: fixed;
-  right: 80px
-}
+.back-button:hover {
+  transform: translateX(-2px);
+  background: #f0f5e9;
+}
