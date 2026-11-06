@@ -2,21 +2,11 @@ import React, { useMemo, useState } from 'react'
 
 import usePhotosStore from '@app/store/use-photos-store'
 
-import PhotoModal from './components/photo-modal'
+import PhotoModal from '@pages/photos-list/components/photo-modal'
 
 import BackButton from '@commons/components/presentational/back-button'
 
-import './photos-list.css'
-
-type PhotoGroup = {
-  date: string
-  photos: string[]
-}
-
-const getDateFromPath = (photoPath: string): string => {
-  const match = photoPath.match(/(?:^|[\\/])(\d{4}-\d{2}-\d{2})(?:[\\/]|$)/)
-  return match?.[1] ?? 'Sin fecha'
-}
+import '@pages/photos-list/photos-list.css'
 
 const PhotosListPage: React.FC = () => {
   const { photos } = usePhotosStore()

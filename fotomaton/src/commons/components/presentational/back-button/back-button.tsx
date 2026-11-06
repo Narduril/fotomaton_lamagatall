@@ -4,7 +4,7 @@ import useCustomNavigate from '@commons/hooks/use-custom-navigate'
 
 import { ROUTE_PATHS } from '@app/components/routes/utils/route-paths'
 
-import "./back-button.css"
+import '@commons/components/presentational/back-button/back-button.css'
 
 const BackButton: React.FC = () => {
   const { customNavigate } = useCustomNavigate()

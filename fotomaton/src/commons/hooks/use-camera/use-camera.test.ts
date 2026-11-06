@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import useCamera from './use-camera'
+import useCamera from '@commons/hooks/use-camera/use-camera'
 
 describe('useCamera', () => {
   afterEach(() => {
