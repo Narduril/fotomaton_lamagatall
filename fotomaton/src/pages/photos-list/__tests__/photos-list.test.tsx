@@ -2,6 +2,8 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+import PhotosListPage from '@pages/photos-list'
+
 const photosStore = vi.hoisted(() => ({
   photos: [
     'file:///photos/2025-01-02/02.jpg',
@@ -29,7 +31,6 @@ vi.mock('./components/photo-modal', () => ({
     ) : null,
 }))
 
-import PhotosListPage from './photos-list'
 
 describe('PhotosListPage', () => {
   beforeEach(() => {

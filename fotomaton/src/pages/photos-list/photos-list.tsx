@@ -6,7 +6,12 @@ import PhotoModal from '@pages/photos-list/components/photo-modal'
 
 import BackButton from '@commons/components/presentational/back-button'
 
+import { getDateFromPath } from '@pages/photos-list/utils/get-date-from-path'
+
+import { PhotoGroup } from '@pages/photos-list/utils/types'
+
 import '@pages/photos-list/photos-list.css'
+
 
 const PhotosListPage: React.FC = () => {
   const { photos } = usePhotosStore()
