@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { randomUUID } from 'node:crypto';
 
 export const getTodayFolderName = (date = new Date()) => {
   const yyyy = date.getFullYear();
@@ -34,7 +35,7 @@ export const getCandidatePhotoRoots = (preferredRoot) => {
   const candidates = [
     preferredRoot,
     ...windowsPictureRoots,
-    path.join(os.tmpdir(), 'Fotomaton'),
+    os.tmpdir(),
   ].filter(Boolean);
 
   const uniqueCandidates = [];
@@ -53,19 +54,18 @@ export const getCandidatePhotoRoots = (preferredRoot) => {
 
 export const ensureDirectoryWritable = (directoryPath) => {
   const normalizedDir = path.resolve(directoryPath);
+  const probePath = path.join(normalizedDir, `.fotomaton-write-test-${randomUUID()}`);
 
   try {
     fs.mkdirSync(normalizedDir, { recursive: true });
     fs.accessSync(normalizedDir, fs.constants.W_OK);
 
-    const probePath = path.join(normalizedDir, '.fotomaton-write-test');
     fs.writeFileSync(probePath, 'ok', { flag: 'wx' });
     fs.unlinkSync(probePath);
 
     return normalizedDir;
   } catch (error) {
     try {
-      const probePath = path.join(normalizedDir, '.fotomaton-write-test');
       if (fs.existsSync(probePath)) {
         fs.unlinkSync(probePath);
       }
@@ -79,6 +79,7 @@ export const ensureDirectoryWritable = (directoryPath) => {
 
 export const resolvePhotoDirectory = (preferredRoot, dateFolderName = getTodayFolderName()) => {
   const candidateRoots = getCandidatePhotoRoots(preferredRoot);
+  let lastError;
 
   for (const root of candidateRoots) {
     const fullTargetDir = path.join(root, 'Fotomaton', dateFolderName);
@@ -86,15 +87,39 @@ export const resolvePhotoDirectory = (preferredRoot, dateFolderName = getTodayFo
     try {
       ensureDirectoryWritable(fullTargetDir);
       return fullTargetDir;
-    } catch {
-      continue;
+    } catch (error) {
+      lastError = error;
     }
   }
 
-  const fallbackRoot = path.join(os.tmpdir(), 'Fotomaton');
-  const fallbackTargetDir = path.join(fallbackRoot, dateFolderName);
-  ensureDirectoryWritable(fallbackTargetDir);
-  return fallbackTargetDir;
+  throw lastError ?? new Error('No hay una carpeta disponible para guardar fotos.');
+};
+
+export const getStoredPhotos = (preferredRoot) => {
+  const photos = new Set();
+
+  for (const root of getCandidatePhotoRoots(preferredRoot)) {
+    const photosRoot = path.join(root, 'Fotomaton');
+    if (!fs.existsSync(photosRoot)) {
+      continue;
+    }
+
+    const dateDirectories = fs.readdirSync(photosRoot, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name);
+
+    for (const dateFolder of dateDirectories) {
+      const folderPath = path.join(photosRoot, dateFolder);
+      const files = fs.readdirSync(folderPath)
+        .filter((fileName) => /\.(jpe?g|png|webp|gif|bmp)$/i.test(fileName));
+
+      for (const fileName of files) {
+        photos.add(path.join(folderPath, fileName));
+      }
+    }
+  }
+
+  return [...photos].sort((a, b) => b.localeCompare(a));
 };
 
 export const getSaveErrorMessage = (error, fallback = 'No se pudo guardar la foto.') => {
