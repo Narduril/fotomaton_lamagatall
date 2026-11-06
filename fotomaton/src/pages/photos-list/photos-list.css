@@ -5,6 +5,15 @@
   background:
     radial-gradient(ellipse at 100% 0%, rgb(139 197 63 / 12%), transparent 30rem),
     var(--color-cream);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.photos-list::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 .photos-list__header {
