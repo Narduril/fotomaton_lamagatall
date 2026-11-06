@@ -1,10 +1,10 @@
 import React from "react"
 
-import type { PhotoModaProps } from '@pages/photos-list/components/photo-modal/utils/types';
+import type { PhotoModalProps } from '@pages/photos-list/components/photo-modal/utils/types';
 
 import '@pages/photos-list/components/photo-modal/photo-modal.css'
 
-const PhotoModal: React.FC<PhotoModaProps> = ({ isVisible, photo, closeModal }) => {
+const PhotoModal: React.FC<PhotoModalProps> = ({ isVisible, photo, closeModal }) => {
   return (
     <>
       {isVisible && (
@@ -32,4 +32,4 @@ const PhotoModal: React.FC<PhotoModaProps> = ({ isVisible, photo, closeModal }) 
   )
 }
 
-export default PhotoModal;
+export default PhotoModal;

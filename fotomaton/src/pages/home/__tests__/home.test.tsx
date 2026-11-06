@@ -2,6 +2,8 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+import HomePage from '@pages/home'
+
 const homeMocks = vi.hoisted(() => ({
   customNavigate: vi.fn(),
   setPhotos: vi.fn(),
@@ -22,7 +24,6 @@ vi.mock('@commons/components/presentational/back-button', () => ({
   default: () => null,
 }))
 
-import HomePage from './home'
 
 describe('HomePage', () => {
   beforeEach(() => {
