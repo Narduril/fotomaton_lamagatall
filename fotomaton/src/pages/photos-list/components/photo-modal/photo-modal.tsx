@@ -1,8 +1,8 @@
 import React from "react"
 
-import type { PhotoModaProps } from './utils/types';
+import type { PhotoModaProps } from '@pages/photos-list/components/photo-modal/utils/types';
 
-import "./photo-modal.css"
+import '@pages/photos-list/components/photo-modal/photo-modal.css'
 
 const PhotoModal: React.FC<PhotoModaProps> = ({ isVisible, photo, closeModal }) => {
   return (

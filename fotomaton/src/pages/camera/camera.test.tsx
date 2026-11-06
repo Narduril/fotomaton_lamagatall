@@ -28,7 +28,7 @@ vi.mock('@commons/components/presentational/back-button', () => ({
   default: () => null,
 }))
 
-import CameraPage from './camera'
+import CameraPage from '@pages/camera/camera'
 
 describe('CameraPage', () => {
   beforeEach(() => {

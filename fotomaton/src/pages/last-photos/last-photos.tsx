@@ -6,7 +6,7 @@ import useCustomNavigate from '@commons/hooks/use-custom-navigate';
 
 import { ROUTE_PATHS } from '@app/components/routes/utils/route-paths';
 
-import "./last-photos.css"
+import '@pages/last-photos/last-photos.css'
 
 const LastPhotosPage: React.FC = () => {
   const { photos } = usePhotosStore()

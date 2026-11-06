@@ -19,5 +19,21 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      'no-restricted-imports': ['error', {
+        patterns: [
+          {
+            group: ['../*', './*'],
+            message: 'Usa alias @, @app, @pages o @commons en lugar de imports relativos.',
+          },
+        ],
+      }],
+    },
+  },
+  {
+    files: ['**/index.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': 'off',
+    },
   },
 ])

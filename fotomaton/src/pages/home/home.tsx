@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import useCustomNavigate from '@commons/hooks/use-custom-navigate/use-custom-navigate'
 
 import usePhotosStore from '@app/store/use-photos-store'
@@ -6,11 +8,24 @@ import { ROUTE_PATHS } from '@app/components/routes/utils/route-paths'
 
 import logoPenya from '@app/assets/img/logo_penya.png'
 
-import './home.css'
+import '@pages/home/home.css'
 
 const HomePage: React.FC = () => {
   const { customNavigate } = useCustomNavigate()
-  const { photos } = usePhotosStore()
+  const { photos, setPhotos } = usePhotosStore()
+
+  useEffect(() => {
+    const loadPhotos = async () => {
+      if (!window.electronAPI) {
+        return
+      }
+
+      const files = await window.electronAPI.getPhotos()
+      setPhotos(files)
+    }
+
+    loadPhotos()
+  }, [setPhotos])
 
   return (
     <main className="home">

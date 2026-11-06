@@ -9,10 +9,11 @@ const usePhotosStore = create<PhotosState & PhotosActions>((set) => ({
   setPhoto: (photo: string) =>
     set((state) => ({
       ...state,
-      photos: [
-        ...state.photos,
-        photo
-      ]
+      photos: [...new Set([...state.photos, photo])]
+    })),
+  setPhotos: (photos: string[]) =>
+    set(() => ({
+      photos: [...new Set(photos)]
     }))
 }))
 
