@@ -1,10 +1,26 @@
-import React from "react"
+import React, { useEffect } from "react"
 
 import type { PhotoModalProps } from '@pages/photos-list/components/photo-modal/utils/types';
 
 import '@pages/photos-list/components/photo-modal/photo-modal.css'
 
 const PhotoModal: React.FC<PhotoModalProps> = ({ isVisible, photo, closeModal }) => {
+  useEffect(() => {
+    if (!isVisible) {
+      return
+    }
+
+    const previousBodyOverflow = document.body.style.overflow
+    const previousDocumentOverflow = document.documentElement.style.overflow
+    document.body.style.overflow = 'hidden'
+    document.documentElement.style.overflow = 'hidden'
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow
+      document.documentElement.style.overflow = previousDocumentOverflow
+    }
+  }, [isVisible])
+
   return (
     <>
       {isVisible && (
