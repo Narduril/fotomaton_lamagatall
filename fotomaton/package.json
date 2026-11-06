@@ -55,8 +55,10 @@
     "files": [
       "dist/**/*",
       "electron/**/*",
+      "assets/**/*",
       "package.json"
     ],
+    "icon": "assets/icon",
     "extraResources": [
       {
         "from": "electron/preload.cjs",
