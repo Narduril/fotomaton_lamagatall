@@ -1,10 +1,20 @@
 .photos-list {
-  min-height: 100vh;
+  height: 100vh;
+  overflow-y: auto;
   position: relative;
   padding: clamp(6.5rem, 12vh, 8rem) clamp(1rem, 6vw, 5rem) 4rem;
   background:
     radial-gradient(ellipse at 100% 0%, rgb(139 197 63 / 12%), transparent 30rem),
     var(--color-cream);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior: contain;
+}
+
+.photos-list::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 .photos-list__header {
