@@ -5,7 +5,7 @@ import path from 'path';
 import fs from 'fs';
 import os from 'os';
 
-import { getSaveErrorMessage, getTodayFolderName, resolvePhotoDirectory } from './photo-storage.js';
+import { getSaveErrorMessage, getStoredPhotos, getTodayFolderName, resolvePhotoDirectory } from './photo-storage.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -52,43 +52,9 @@ function createWindow() {
   });
 }
 
-const folderName = getTodayFolderName();
-
-const photosRoot = getPhotosRoot();
-const photosDir = resolvePhotoDirectory(photosRoot, folderName);
-
-if (!fs.existsSync(photosDir)) {
-  fs.mkdirSync(photosDir, { recursive: true });
-}
-
-const getStoredPhotos = () => {
-  if (!fs.existsSync(photosRoot)) {
-    return [];
-  }
-
-  const dateDirectories = fs.readdirSync(photosRoot, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => entry.name)
-    .sort((a, b) => b.localeCompare(a));
-
-  const files = dateDirectories.flatMap((dateFolder) => {
-    const folderPath = join(photosRoot, dateFolder);
-
-    if (!fs.existsSync(folderPath)) {
-      return [];
-    }
-
-    return fs.readdirSync(folderPath)
-      .filter((fileName) => /\.(jpe?g|png|webp|gif|bmp)$/i.test(fileName))
-      .map((fileName) => join(folderPath, fileName));
-  });
-
-  return files.sort((a, b) => b.localeCompare(a));
-};
-
 ipcMain.handle('save-photo', async (event, base64Data, filename) => {
   try {
-    const targetDir = resolvePhotoDirectory(getPhotosRoot(), folderName);
+    const targetDir = resolvePhotoDirectory(getPhotosRoot(), getTodayFolderName());
     const safeFilename = typeof filename === 'string' && filename.trim().length > 0 ? filename : `photo_${Date.now()}.jpeg`;
     const filePath = join(targetDir, safeFilename);
     const data = base64Data.replace(/^data:image\/\w+;base64,/, '');
@@ -105,7 +71,7 @@ ipcMain.handle('save-photo', async (event, base64Data, filename) => {
 
 ipcMain.handle('get-photos', async () => {
   try {
-    return getStoredPhotos();
+    return getStoredPhotos(getPhotosRoot());
   } catch (error) {
     console.error('❌ Error recuperando fotos:', error);
     return [];
