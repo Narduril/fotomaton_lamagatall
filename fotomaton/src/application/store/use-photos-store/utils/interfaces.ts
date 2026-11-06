@@ -4,4 +4,5 @@ export interface PhotosState {
 
 export interface PhotosActions {
   setPhoto: (photo: string) => void;
+  setPhotos: (photos: string[]) => void;
 }

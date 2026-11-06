@@ -61,6 +61,31 @@ if (!fs.existsSync(photosDir)) {
   fs.mkdirSync(photosDir, { recursive: true });
 }
 
+const getStoredPhotos = () => {
+  if (!fs.existsSync(photosRoot)) {
+    return [];
+  }
+
+  const dateDirectories = fs.readdirSync(photosRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort((a, b) => b.localeCompare(a));
+
+  const files = dateDirectories.flatMap((dateFolder) => {
+    const folderPath = join(photosRoot, dateFolder);
+
+    if (!fs.existsSync(folderPath)) {
+      return [];
+    }
+
+    return fs.readdirSync(folderPath)
+      .filter((fileName) => /\.(jpe?g|png|webp|gif|bmp)$/i.test(fileName))
+      .map((fileName) => join(folderPath, fileName));
+  });
+
+  return files.sort((a, b) => b.localeCompare(a));
+};
+
 ipcMain.handle('save-photo', async (event, base64Data, filename) => {
   try {
     const targetDir = resolvePhotoDirectory(getPhotosRoot(), folderName);
@@ -75,6 +100,15 @@ ipcMain.handle('save-photo', async (event, base64Data, filename) => {
     const friendlyError = getSaveErrorMessage(error, 'No se pudo guardar la foto. Comprueba que la carpeta de destino esté disponible y tengas permisos de escritura.');
     console.error('❌ Error guardando foto:', friendlyError);
     return { success: false, error: friendlyError };
+  }
+});
+
+ipcMain.handle('get-photos', async () => {
+  try {
+    return getStoredPhotos();
+  } catch (error) {
+    console.error('❌ Error recuperando fotos:', error);
+    return [];
   }
 });
 
